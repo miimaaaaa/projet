@@ -2,10 +2,15 @@ import cv2
 import sys
 
 import face_checker
+import image_analyzer
 import upload
 import image_transformer
 import numpy as np
 #import matplotlib.pyplot as plt
+import video_analyzer
+import PySimpleGUI as sg
+
+sg.Window(title="Hello World", layout=[[]], margins=(100, 50)).read()
 
 upload_checker = upload.UploadChecker()
 img_trs = image_transformer.ImageTransformer()
@@ -17,65 +22,8 @@ if not upload_checker.check_format(sys.argv[1]):
 is_video = upload_checker.assert_type(sys.argv[1])
 if is_video:
     video_file = sys.argv[1]
-    video = cv2.VideoCapture(video_file)
-    if not video.isOpened():
-        print("Erreur lors de l'ouverture du fichier vidéo.")
-        exit()
-    #On lit la vidéo jusqu'a la fin
-    while video.isOpened():
-        #On va lire frame par frame
-        ret, frame = video.read()
-        if ret:
-            #On converti toujours les images en gris car elles nécessitent moins d'informations par pixel
-            gray = img_trs.toGray(frame)
-            #On va récupérer tous les pattern de visage dont on dispose
-            faces_tab = face_checker.cycle_face(gray)
-            for faces_pattern in faces_tab:
-                for (x, y, w, h) in faces_pattern:
-                    cv2.rectangle(frame, (x, y), ((x + w), (y + h)), (255, 0, 0), 2)
-                    roi_gray = gray[y:y + h, x:x + w]
-                    roi_color = frame[y:y + h, x:x + w]
-                    #On ecrit ce qui est détecté
-                    cv2.putText(frame, "Visage", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-            #De même avec les corps
-            body_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fullbody.xml')
-            bodies = body_cascade.detectMultiScale(gray, 1.01, 4)
-            for (x, y, w, h) in bodies:
-                cv2.rectangle(frame, (x, y), ((x + w), (y + h)), (0, 255, 0), 2)
-                roi_gray = gray[y:y + h, x:x + w]
-                roi_color = frame[y:y + h, x:x + w]
-                # On ecrit ce qui est détecté
-                cv2.putText(frame, "Corps", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-            cv2.imshow('Frame', frame)
-            if cv2.waitKey(25) & 0xFF == ord('q'):
-                break
-        else:
-            break
-    video.release()
-    cv2.destroyAllWindows()
+    video_analyzer.analyzevideo(video_file)
 #On est dans le cas d'une image ici
 else:
     image = cv2.imread(sys.argv[1])
-    gray = img_trs.toGray(image)
-    faces_tab = face_checker.cycle_face(gray)
-    for faces_pattern in faces_tab:
-        for (x, y, w, h) in faces_pattern:
-            cv2.rectangle(image, (x, y), ((x + w), (y + h)), (255, 0, 0), 2)
-            roi_gray = gray[y:y + h, x:x + w]
-            roi_color = image[y:y + h, x:x + w]
-            # On ecrit ce qui est détecté
-            cv2.putText(image, "Visage", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-    # De même avec les corps
-    body_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fullbody.xml')
-    bodies = body_cascade.detectMultiScale(gray, 1.01, 6)
-    print(bodies)
-    for (x, y, w, h) in bodies:
-        cv2.rectangle(image, (x, y), ((x + w), (y + h)), (0, 255, 0), 2)
-        roi_gray = gray[y:y + h, x:x + w]
-        roi_color = image[y:y + h, x:x + w]
-        # On ecrit ce qui est détecté
-        cv2.putText(image, "Corps", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
-    cv2.imshow('Frame', image)
-    key = cv2.waitKey(0)
-    if key == 27:  # if ESC is pressed
-        cv2.destroyAllWindows()
+    image_analyzer.analyzeimage(image)

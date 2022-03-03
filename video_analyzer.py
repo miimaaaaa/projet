@@ -1,7 +1,10 @@
 import cv2
+import image_transformer
+import face_checker
 
+img_trs = image_transformer.ImageTransformer()
 
-def analyzevideo(self, video_file):
+def analyzevideo(video_file):
     video = cv2.VideoCapture(video_file)
     if not video.isOpened():
         print("Erreur lors de l'ouverture du fichier vidéo.")
