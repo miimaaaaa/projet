@@ -9,18 +9,18 @@ file_column = [
     [
         sg.Text("Document à analyser"),
         sg.In(size=(25, 1), enable_events=True, key="-FOLDER-"),
-        sg.FileBrowse(key="-IN-"),
+        sg.FileBrowse(key="IN"),
         sg.Button("OK"),
     ]
 ]
 #Partie sélection d'analyse
 analyse_column = [
     [
-        sg.Checkbox('Analyser visages', default=False, key="-FACE-"),
-        sg.Checkbox('Analyser corps', default=False, key="-BODY-"),
-        sg.Checkbox('Analyser formes', default=False, key="-SHAPE-"),
-        sg.Checkbox('Analyser couleurs', default=False, key="-COLOR-"),
-        sg.Checkbox('Analyser textes', default=False, key="-TEXT-"),
+        sg.Checkbox('Analyser visages', default=False, key="FACE"),
+        sg.Checkbox('Analyser corps', default=False, key="BODY"),
+        sg.Checkbox('Analyser formes', default=False, key="SHAPE"),
+        sg.Checkbox('Analyser couleurs', default=False, key="COLOR"),
+        sg.Checkbox('Analyser textes', default=False, key="TEXT"),
     ]
 ]
 
@@ -44,22 +44,12 @@ while True:
     event, values = window.read()
     if event == "Exit" or event == sg.WIN_CLOSED:
         break
-    if event == "FACE":
-        face = values["-FACE-"]
-    if event == "BODY":
-        body = values["-BODY-"]
-    if event == "SHAPE":
-        shape = values["-SHAPE-"]
-    if event == "COLOR":
-        color = values["-COLOR-"]
-    if event == "TEXT":
-        text = values["-TEXT-"]
     if event == "OK":
         #On récupère le path dans file
-        file = (values["-IN-"])
+        file = (values["IN"])
         #On créer les outils
         upload_checker = upload.UploadChecker()
-        imageAnalyzer = image_analyzer.ImageAnalyzer(face, body, shape, color, text)
+        imageAnalyzer = image_analyzer.ImageAnalyzer(values["FACE"], values["BODY"], values["SHAPE"], values["COLOR"], values["TEXT"])
         #On vérifie d'abord que le format du fichier est exploitable
         if not upload_checker.check_format(file):
             print("Le fichier n'est pas dans un format reconnu.")

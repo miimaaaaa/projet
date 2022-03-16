@@ -2,38 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4be1656c-9881-4eca-8ea7-f1f8bad7f463" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/image_renderer.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shape_checker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2B.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2B.jpg_output" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/2B.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/angel.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/angel.mp4_output.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bodypic.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bodypic.jpg_output.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/garb.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_eye.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_eye_tree_eyeglasses.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_frontalcatface.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_frontalcatface_extended.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_frontalface_alt.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_frontalface_alt2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_frontalface_alt_tree.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_frontalface_default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_fullbody.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_lefteye_2splits.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_licence_plate_rus_16stages.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_lowerbody.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_profileface.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_righteye_2splits.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_russian_plate_number.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_smile.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/haarcascade_upperbody.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ressources/bodypic.jpg_output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Ressources/bodypic.jpg_output.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/image_analyzer.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_analyzer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_transformer.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/photo.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/video_analyzer.py" beforeDir="false" afterPath="$PROJECT_DIR$/video_analyzer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
