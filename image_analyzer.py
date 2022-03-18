@@ -36,32 +36,28 @@ class ImageAnalyzer:
                 # On ecrit ce qui est détecté
                 cv2.putText(image, "Corps", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
         if self.shape:
-            ratio = image.shape[0] / float(image.shape[0])
-            # On passe en gris pour alléger le calcul, et on floute pour éviter
-            # de traiter le "bruit" présent sur l'image
-            # puis on binarise pour révéler les formes
-            blurred = cv2.GaussianBlur(gray, (5, 5), 0)
-            thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)[1]
-            # find contours in the thresholded image and initialize the
-            # shape detector
-            cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-                                    cv2.CHAIN_APPROX_SIMPLE)
-            cnts = imutils.grab_contours(cnts)
-            # loop over the contours
-            for c in cnts:
-                # compute the center of the contour, then detect the name of the
-                # shape using only the contour
-                M = cv2.moments(c)
-                cX = int((M["m10"] / M["m00"]) * ratio)
-                cY = int((M["m01"] / M["m00"]) * ratio)
-                shape = shape_checker.detect(c)
-                # multiply the contour (x, y)-coordinates by the resize ratio,
-                # then draw the contours and the name of the shape on the image
-                c = c.astype("float")
-                c *= ratio
-                c = c.astype("int")
-                cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
-                cv2.putText(image, shape, (cX, cY), cv2.FONT_HERSHEY_SIMPLEX,
-                            0.5, (0, 0, 0), 2)
+            gray_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            edges = cv2.Canny(gray_img, 50, 200)
+            contours, hierarchy = cv2.findContours(edges.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+            for cnt in contours:
+                shape = "*"
+                approx = cv2.approxPolyDP(cnt, 0.03 * cv2.arcLength(cnt, True), True)
+                point_x = approx[0][0][0]
+                point_y = approx[0][0][1]
+                # detect shapes using cv2
+                if len(approx) == 3:
+                    shape = 'Triangle'
+                elif len(approx) == 4:
+                    x, y, w, h = cv2.boundingRect(cnt)
+                    if abs(w - h) < 5:
+                        shape = 'Square'
+                    else:
+                        shape = 'Rectangle'
+                elif len(approx) == 8:
+                    shape = 'Circle'
+                    M = cv2.moments(approx)
+                if not shape == "*":
+                    cv2.putText(image, shape, (point_x, point_y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
+                #cv2.drawContours(image, cnt, -1, (0, 255, 0), 2)
 
         return image

@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4be1656c-9881-4eca-8ea7-f1f8bad7f463" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/shape_checker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ressources/bodypic.jpg_output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Ressources/bodypic.jpg_output.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ressources/formes.png_output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Ressources/formes.png_output.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ressources/photo.jpg_output.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Ressources/photo.jpg_output.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/image_analyzer.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_analyzer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
