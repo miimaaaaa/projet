@@ -20,10 +20,11 @@ class ImageAnalyzer:
         image = cv2.imread(file)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         if self.face:
-            # print("face")
+            # On va chercher les différents patterns de visage dont on dispose
             faces_tab = face_checker.cycle_face(gray)
             for faces_pattern in faces_tab:
                 for (x, y, w, h) in faces_pattern:
+                    # Création d'un rectangle
                     cv2.rectangle(image, (x, y), ((x + w), (y + h)), (255, 0, 0), 2)
                     # On ecrit ce qui est détecté
                     cv2.putText(image, "Visage", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1, cv2.LINE_AA)
@@ -63,8 +64,9 @@ class ImageAnalyzer:
             index = ["couleur", "nom_couleur", "hexa", "R", "G", "B"]
             # Importation du fichier csv qui contient les couleurs
             csv = pd.read_csv('couleurs.csv', names=index, header=None)
-            # On initialise le taux de couleurs rouge,vert et bleu
-            r = g = b = 0
+            # On initialise l'action "cliquer" à faux ainsi que le taux de couleurs rouge,vert et bleu et aussi la position de la souris
+            clicked = False
+            r = g = b = xpos = ypos = 0
 
             # Une fonction qui cherche les valeurs les plus proches pour R,G et B et renvoi le nom de la couleur
             def reconnaissance_couleur(R, G, B):
@@ -80,16 +82,47 @@ class ImageAnalyzer:
                         # On recupére ensuite le nom de la couleur
                         nom_c = csv.loc[i, "nom_couleur"]
                 return nom_c
-            # Entourage du texte par un bloc de la même couleur detectée
-            # cv2.rectangle(image, Point du début, Point de fin, couleur, opacité)
-            cv2.rectangle(image, (20, 20), (750, 60), (b, g, r), -1)
-            # Detection de la couleur et affichage du nom de la couleur et les valeurs en RGB)
-            texte = reconnaissance_couleur(r, g, b) + ' R=' + str(r) + ' G=' + str(g) + ' B=' + str(b)
-            cv2.putText(image, texte, (50, 50), 2, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
-            # Pour les couleurs trés claires, on affiche le texte en noir
-            if (r + g + b >= 600):
-                cv2.putText(image, texte, (50, 50), 2, 0.8, (0, 0, 0), 2, cv2.LINE_AA)
 
+            # Une fonction qui affiche le nom de la couleur au clique
+            def clic(double_clic, x, y, flags, param):
+                # Au clic on remplaces les valeurs globales par les valeurs trouvés et avec la position du clic
+                if double_clic == cv2.EVENT_LBUTTONDBLCLK:
+                    global b, g, r, xpos, ypos, clicked
+                    clicked = True
+                    xpos = x
+                    ypos = y
+                    b, g, r = image[y, x]
+                    b = int(b)
+                    g = int(g)
+                    r = int(r)
+
+            # On nome la fenêtre où l'image sera affichée
+            cv2.namedWindow('Resultat')
+            # Appel à la fonction "clic"
+            cv2.setMouseCallback('Resultat', clic)
+            # Un boucle à l'infini pour l'affichage de la fenêtre
+            while (1):
+                # Affichage de la fenêtre qui contient l'image
+                cv2.imshow("Resultat", image)
+                # Si l'utilisateur a cliqué
+                print(clicked)
+                if (clicked):
+                    # Entourage du texte par un bloc de la même couleur detectée
+                    # cv2.rectangle(image, Point du début, Point de fin, couleur, opacité)
+                    cv2.rectangle(image, (20, 20), (750, 60), (b, g, r), -1)
+                    # Detection de la couleur et affichage du nom de la couleur et les valeurs en RGB)
+                    texte = reconnaissance_couleur(r, g, b) + ' R=' + str(r) + ' G=' + str(g) + ' B=' + str(b)
+                    cv2.putText(image, texte, (50, 50), 2, 0.8, (255, 255, 255), 2, cv2.LINE_AA)
+                    # Pour les couleurs trés claires, on affiche le texte en noir
+                    if (r + g + b >= 600):
+                        cv2.putText(image, texte, (50, 50), 2, 0.8, (0, 0, 0), 2, cv2.LINE_AA)
+                    clicked = False
+
+                # Pour sortir de la boucle on clique sur le bouton échape du clavier
+                if cv2.waitKey(20) & 0xFF == 27:
+                    break
+            # On ferme toutes les fenêtres ouvertes
+            cv2.destroyAllWindows()
         if self.text:
             pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
             img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
