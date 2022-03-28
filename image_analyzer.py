@@ -2,9 +2,9 @@ import cv2
 import face_checker
 import imutils
 
-#Classe qui permet l'analyse de l'image, c'est plus pratique d'en faire
-#une classe pour sauvegarder les choix de l'utilisateur vis a vis des
-#options d'analyse
+# Classe qui permet l'analyse de l'image, c'est plus pratique d'en faire
+# une classe pour sauvegarder les choix de l'utilisateur vis a vis des
+# options d'analyse
 import shape_checker
 
 
@@ -20,7 +20,7 @@ class ImageAnalyzer:
     def analyzeimage(self, image):
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         if self.face:
-            print("face")
+            # print("face")
             faces_tab = face_checker.cycle_face(gray)
             for faces_pattern in faces_tab:
                 for (x, y, w, h) in faces_pattern:
@@ -44,7 +44,7 @@ class ImageAnalyzer:
                 approx = cv2.approxPolyDP(cnt, 0.03 * cv2.arcLength(cnt, True), True)
                 point_x = approx[0][0][0]
                 point_y = approx[0][0][1]
-                # detect shapes using cv2
+                # On va assigner une forme en fonction de la sortie de approxPolyDP
                 if len(approx) == 3:
                     shape = 'Triangle'
                 elif len(approx) == 4:
@@ -55,9 +55,12 @@ class ImageAnalyzer:
                         shape = 'Rectangle'
                 elif len(approx) == 8:
                     shape = 'Circle'
-                    M = cv2.moments(approx)
                 if not shape == "*":
                     cv2.putText(image, shape, (point_x, point_y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
-                #cv2.drawContours(image, cnt, -1, (0, 255, 0), 2)
+        if self.color:
+
+        if self.text:
+
+
 
         return image
