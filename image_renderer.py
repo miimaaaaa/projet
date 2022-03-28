@@ -4,8 +4,7 @@ import image_analyzer
 
 
 def renderimage(file, imageAnalyzer):
-    image = cv2.imread(file)
-    image = imageAnalyzer.analyzeimage(image)
+    image = imageAnalyzer.analyzeimage(file)
     # Affichage de l'image
     cv2.imshow('Result', image)
     # Sauvegarde de l'image
