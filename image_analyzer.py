@@ -1,7 +1,7 @@
 import cv2
 import face_checker
 import pytesseract
-
+import os.path
 
 # Classe qui permet l'analyse de l'image, c'est plus pratique d'en faire
 # une classe pour sauvegarder les choix de l'utilisateur vis a vis des
@@ -17,7 +17,9 @@ class ImageAnalyzer:
         self.text = text
         self.file = file
 
+    # En fonction des choix utilisateur on va analyser chaque élément a la suite par frame
     def analyzeimage(self, image):
+        # On passe en nuance de gris pour gérer moins de données
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         if self.face:
             # On va chercher les différents patterns de visage dont on dispose
@@ -65,11 +67,10 @@ class ImageAnalyzer:
             img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             # On essai de lire le fichier ou on append ce qu'on lit,
             # si on ne parvient pas à le lire on le crée
-            try:
+            if not os.path.isfile(self.file + '_output.txt'):
                 with open(self.file + '_output.txt', 'x') as f:
                     f.write(pytesseract.image_to_string(img))
-            except FileNotFoundError:
+            else:
                 with open(self.file + '_output.txt', 'w') as f:
                     f.write(pytesseract.image_to_string(img))
-            print()
         return image

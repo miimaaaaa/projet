@@ -4,16 +4,21 @@ import upload
 import video_analyzer
 import PySimpleGUI as sg
 
-#Partie upload de fichier
+# Partie upload de fichier
 file_column = [
     [
-        sg.Text("Document à analyser"),
-        sg.In(size=(25, 1), enable_events=True, key="FOLDER"),
-        sg.FileBrowse(key="IN"),
-        sg.Button("OK"),
+        sg.T('Document à analyser')
+    ],
+    [
+        sg.In(enable_events=True, key="FOLDER")
+    ],
+    [
+        sg.FileBrowse(target=(-1, 0), key="IN"), sg.OK(key="OK"),
+        sg.Text(key="WARNING")
     ]
 ]
-#Partie sélection d'analyse
+
+# Partie sélection d'analyse
 analyse_column = [
     [
         sg.Checkbox('Analyser visage', default=False, key="FACE"),
@@ -31,7 +36,7 @@ layout = [
         sg.Column(analyse_column),
     ]
 ]
-#Valeurs par défaut des analyses
+# Valeurs par défaut des analyses
 face = False
 body = False
 shape = False
@@ -47,6 +52,13 @@ while True:
     elif event == "FOLDER":
         # On récupère le path dans file
         file = (values["IN"])
+        # Si le format n'est pas bon, on averti l'utilisateur et on clean tout
+        if not upload.check_format(file):
+            window['WARNING'].Update(value="Le format du fichier n'est pas supporté")
+            window['OK'].Update(disabled=True)
+        else:
+            window['WARNING'].Update(value="")
+            window['OK'].Update(disabled=False)
         # On détermine si on a une image ou une video
         is_video = upload.assert_type(file)
         # On autorise pas l'analyse de couleur sur un fichier vidéo
@@ -72,9 +84,6 @@ while True:
         # On créer les outils
         imageAnalyzer = image_analyzer.ImageAnalyzer(values["FACE"], values["BODY"], values["SHAPE"], values["COLOR"], values["TEXT"], file)
         # On vérifie d'abord que le format du fichier est exploitable
-        if not upload.check_format(file):
-            print("Le fichier n'est pas dans un format reconnu.")
-            exit()
         if is_video:
             video_analyzer.analyzevideo(file, imageAnalyzer)
         # On est dans le cas d'une image ici
