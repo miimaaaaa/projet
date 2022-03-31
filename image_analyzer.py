@@ -71,6 +71,6 @@ class ImageAnalyzer:
                 with open(self.file + '_output.txt', 'x') as f:
                     f.write(pytesseract.image_to_string(img))
             else:
-                with open(self.file + '_output.txt', 'w') as f:
+                with open(self.file + '_output.txt', 'a') as f:
                     f.write(pytesseract.image_to_string(img))
         return image
